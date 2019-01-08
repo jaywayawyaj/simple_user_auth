@@ -4,7 +4,7 @@ class User
   include DataMapper::Resource
 
   property :id, Serial
-  property :email, String, :unique => true
+  property :email, String, :unique => true, :required => true
   property :password, BCryptHash
 
   def self.authenticate(email, password)
@@ -17,4 +17,5 @@ class User
       nil
     end
   end
+
 end

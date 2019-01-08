@@ -2,6 +2,8 @@ require 'user'
 
 describe User do
   let!(:user) { User.create(email: 'jethro@bea.com', password: 'bjjbbjjb')}
+  let(:user_again) { User.create(email: 'jethro@bea.com',
+                                        password: 'jbbjjbbj') }
 
   context '#self.authenticate' do
     it 'rejects non-existent user' do
@@ -13,13 +15,17 @@ describe User do
     end
   end
 
-    it 'accepts correct password, user exists' do
-      expect(User.authenticate('jethro@bea.com', 'bjjbbjjb')).to eq user
+  it 'accepts correct password, user exists' do
+    expect(User.authenticate('jethro@bea.com', 'bjjbbjjb')).to eq user
+  end
+
+  describe '#valid?' do
+    it 'checks to see if the user email exists' do
+      expect(user.valid?).to eq true
     end
 
-    context '#signup' do
-      it "Same email address can't be used twice" do
-        expect(User.create(email: 'jethro@bea.com')).to eq nil
-      end
+    it "checks to see if the user is unique" do
+      expect(user_again.valid?).to eq false
     end
+  end
 end
