@@ -20,11 +20,11 @@ describe User do
   end
 
   describe '#valid?' do
-    it 'checks to see if the user email exists' do
+    it 'ensures user email exists' do
       expect(user.valid?).to eq true
     end
 
-    it "checks to see if the user is unique" do
+    it "does not allow non-unique email address" do
       expect(user_again.valid?).to eq false
     end
   end
