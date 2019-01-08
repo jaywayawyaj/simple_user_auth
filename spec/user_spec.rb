@@ -16,4 +16,10 @@ describe User do
     it 'accepts correct password, user exists' do
       expect(User.authenticate('jethro@bea.com', 'bjjbbjjb')).to eq user
     end
+
+    context '#signup' do
+      it "Same email address can't be used twice" do
+        expect(User.create(email: 'jethro@bea.com')).to eq nil
+      end
+    end
 end
