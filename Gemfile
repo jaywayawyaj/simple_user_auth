@@ -16,3 +16,5 @@ group :test do
   gem "rspec"
   gem "capybara"
 end
+
+gem "sinatra-flash", "~> 0.3.0"

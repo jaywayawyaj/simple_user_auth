@@ -1,12 +1,15 @@
 ENV['RACK_ENV'] = 'development'
 
-require 'sinatra/base'
 require './config/data_mapper'
 require 'dm-validations'
+require 'pry'
+require 'sinatra/base'
+require 'sinatra/flash'
 
 class UserAuth < Sinatra::Base
   enable :sessions
   enable :method_override
+  register Sinatra::Flash
 
   get '/' do
     erb :index
@@ -25,11 +28,15 @@ class UserAuth < Sinatra::Base
   end
 
   post '/signup' do
-    redirect '/' unless params[:password].length > 5
+
+    redirect '/error' unless params[:password].length > 5
+
     user = User.create(email: params[:email], password: params[:password])
+
     redirect '/error' unless user.valid?
     if user
       session[:user_id] = user.id
+      flash[:signup_sucess] = "You signed up successfully!"
       redirect '/profile'
     else
       redirect '/'

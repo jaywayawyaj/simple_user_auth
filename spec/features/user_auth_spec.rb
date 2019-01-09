@@ -4,13 +4,14 @@ RSpec.feature 'User Authentication' do
   context 'Sign Up' do
     scenario 'A user can signup' do
       signup
+      expect(page).to have_content 'You signed up successfully!'
       expect(page).to have_content 'Welcome, test@test.com'
     end
 
     scenario "Same email address can't be used twice" do
       signup
       signup
-      expect(page). to have_content "Looks like you’ve already registered with this email. Want to sign in?"
+      expect(page).to have_content "Email or password error."
     end
 
     scenario "A password shorter than 6 charcters is invalid" do
@@ -19,6 +20,7 @@ RSpec.feature 'User Authentication' do
       fill_in :email, with: 'test@test.com'
       fill_in :password, with: 'sec23'
       click_button 'Sign up'
+      expect(page).to have_content "Email or password error."
     end
   end
 
