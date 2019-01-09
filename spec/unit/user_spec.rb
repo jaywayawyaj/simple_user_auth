@@ -1,9 +1,8 @@
 require 'user'
 
 describe User do
-  let!(:user) { User.create(email: 'jethro@bea.com', password: 'bjjbbjjb')}
-  let(:user_again) { User.create(email: 'jethro@bea.com',
-                                        password: 'jbbjjbbj') }
+  let!(:user) { User.create(email: 'jethro@bea.com', password: 'bjjbbjjb') }
+  let!(:user2) { User.create(email: 'jethro@bea.com', password: 'jbbjjbbj') }
 
   context '#self.authenticate' do
     it 'rejects non-existent user' do
@@ -19,13 +18,23 @@ describe User do
     expect(User.authenticate('jethro@bea.com', 'bjjbbjjb')).to eq user
   end
 
-  describe '#valid?' do
+  context '#valid?' do
     it 'ensures user email exists' do
       expect(user.valid?).to eq true
     end
 
     it "does not allow non-unique email address" do
-      expect(user_again.valid?).to eq false
+      expect(user2.valid?).to eq false
     end
+  end
+
+  context 'password' do
+    it 'does not allow a short password to save' do
+      expect(User.create(password: 'short')).to eq false
+    end
+    # it "validates password length" do
+    #   expect(User.create(password: 'short')).should_not be_valid
+    #   expect(User.create(password: 'secret123')).should be_valid
+    # end
   end
 end

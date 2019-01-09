@@ -25,6 +25,7 @@ class UserAuth < Sinatra::Base
   end
 
   post '/signup' do
+    redirect '/' unless params[:password].length > 5
     user = User.create(email: params[:email], password: params[:password])
     redirect '/error' unless user.valid?
     if user

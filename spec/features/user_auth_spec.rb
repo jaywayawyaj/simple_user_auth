@@ -12,6 +12,14 @@ RSpec.feature 'User Authentication' do
       signup
       expect(page). to have_content "Looks like you’ve already registered with this email. Want to sign in?"
     end
+
+    scenario "A password shorter than 6 charcters is invalid" do
+      visit '/'
+      click_on 'Sign up'
+      fill_in :email, with: 'test@test.com'
+      fill_in :password, with: 'sec23'
+      click_button 'Sign up'
+    end
   end
 
   context 'Sign in/out' do
