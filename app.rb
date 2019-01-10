@@ -57,6 +57,7 @@ class UserAuth < Sinatra::Base
       session[:user_id] = user.id
       redirect '/profile'
     else
+      flash[:signin_failure] = "Incorrect email or password"
       redirect '/'
     end
   end
