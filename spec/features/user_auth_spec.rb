@@ -37,7 +37,18 @@ RSpec.feature 'User Authentication' do
       visit '/'
       click_on 'Sign in'
       fill_in :email, with: 'test@test.com'
-      fill_in :password, with: 'secret321'
+      fill_in :password, with: 'WRONGPASSWORD'
+      click_button 'Sign in'
+
+      expect(page.current_path).to eq '/'
+      expect(page).to have_content 'Incorrect email or password'
+    end
+
+    scenario 'A user cannot sign in with an incorrect email address' do
+      visit '/'
+      click_on 'Sign in'
+      fill_in :email, with: 'WRONGEMAIL@test.com'
+      fill_in :password, with: 'secret123'
       click_button 'Sign in'
 
       expect(page.current_path).to eq '/'
